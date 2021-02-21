@@ -17,6 +17,7 @@ import pl.coderslab.charity.models.User;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
+import pl.coderslab.charity.services.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,18 +29,18 @@ public class HomeController {
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
     public User getCurrentUser() {
         UserDetails current = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userRepository.findByEmail(current.getUsername()) != null) {
-            return userRepository.findByEmail(current.getUsername());
+        if (userRepository.findByEmail(current.getUsername()).isPresent()) {
+            return userRepository.findByEmail(current.getUsername()).get();
         } else {
             return null;
         }
@@ -65,15 +66,13 @@ public class HomeController {
     }
     @PostMapping("/register")
     public String registerUser(@ModelAttribute  @Valid User user, BindingResult result){
-        if(result.hasErrors()){
+        if(result.hasErrors() ){
             return "registrationForm";
         } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setPasswordConfirm(passwordEncoder.encode(user.getPasswordConfirm()));
             user.setEnabled(true);
             user.setTokenExpired(false);
-            userRepository.save(user); //co z ochroną przed powieleniem maila? czy unique przy mailu wystarczy?
-            return "redirect:"; //przerzucić to raczej do UserService!
+            userService.create(user);
+            return "redirect:";
         }
     }
     @RequestMapping("/logged")
@@ -85,13 +84,6 @@ public class HomeController {
                 return "redirect:/admin";
             }
     }
-    @RequestMapping("/user")
-    public String goToUserPagePage() {
-            return "userPage";
-        }
-    @RequestMapping("/admin")
-    public String goToAdminPage() {
-        return "adminPage";
-    }
+
 
 }

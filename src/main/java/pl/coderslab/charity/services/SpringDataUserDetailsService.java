@@ -12,6 +12,7 @@ import pl.coderslab.charity.models.User;
 import pl.coderslab.charity.repositories.UserRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service("userDetailsService")
@@ -28,11 +29,15 @@ public class SpringDataUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails
     loadUserByUsername(String username) {
-        User user = userRepository.findByEmail(username);
-        if (user == null) { throw new UsernameNotFoundException(username); }
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        user.getRoles().forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+        Optional<User> optionalUser = userRepository.findByEmail(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+            user.getRoles().forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+        } else {
+            throw new UsernameNotFoundException(username);
+        }
     }
 
 

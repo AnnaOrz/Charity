@@ -39,7 +39,11 @@ public class Role {
         this.users = users;
     }
 
+    @Override
+    public String toString() {
+        return name.replaceFirst("ROLE_", "");
 
+    }
 }
 
 

@@ -1,5 +1,7 @@
 package pl.coderslab.charity.models;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,17 +12,17 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Email
-        @Column(unique = true, name="username")
-        @NotBlank(message = "pole nie może być puste")
-        private String email;
+    @Email
+    @Column(unique = true, name = "username")
+    @NotBlank(message = "pole nie może być puste")
+    private String email;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
@@ -30,20 +32,21 @@ public class User {
     private Set<Role> roles;
 
 
-        @NotBlank(message = "pole nie może być puste")
-        private String password;
+    @NotBlank(message = "pole nie może być puste")
+    private String password;
 
-        @Transient
-        private String passwordConfirm;
+    @Transient
+    private String passwordConfirm;
 
-//każda dotacja ma jednego użytkownika, użytkownik może mieć wiele dotacji
-        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-        private List<Donation> donations;
+    private String firstName;
+    private String lastName;
 
-        private String firstName;
-        private String lastName;
-        private boolean enabled;
-        private boolean tokenExpired;
+    //każda dotacja ma jednego użytkownika, użytkownik może mieć wiele dotacji
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Donation> donations;
+
+    private boolean enabled;
+    private boolean tokenExpired;
 
     public Long getId() {
         return id;
