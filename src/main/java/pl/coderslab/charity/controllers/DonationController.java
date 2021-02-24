@@ -29,17 +29,17 @@ import javax.validation.Valid;
         }
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public String goToDonationForm(Model model){
             model.addAttribute("donation", new Donation());
             model.addAttribute("categories", categoryRepository.findAll());
             model.addAttribute("institutions", institutionRepository.findAll());
-        return "formDonation";
+        return "form-donation";
     }
 
     @PostMapping("/")
     public String addDonation(@ModelAttribute @Valid Donation donation, BindingResult result){
         donationRepository.save(donation);
-            return "landingPage";
+            return "landing-page";
     }
 }

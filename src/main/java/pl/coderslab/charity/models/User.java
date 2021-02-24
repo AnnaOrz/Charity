@@ -17,6 +17,7 @@ public class User {
     private Long id;
 
     @Email
+
     @Column(unique = true, name = "username")
     @NotBlank(message = "pole nie może być puste")
     private String email;
@@ -29,6 +30,7 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
+    @UniqueElements
     private Set<Role> roles;
 
 
@@ -41,7 +43,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    //każda dotacja ma jednego użytkownika, użytkownik może mieć wiele dotacji
+    // użytkownik może mieć wiele dotacji, dotacja ma jednego użytkownika
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Donation> donations;
 

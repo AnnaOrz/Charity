@@ -1,6 +1,8 @@
 package pl.coderslab.charity.services;
 
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,7 @@ import pl.coderslab.charity.repositories.RoleRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,14 +28,21 @@ public class UserService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    public boolean emailExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 
     public void create(User user) {
+        if(!emailExist(user.getEmail())){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
+        user.setTokenExpired(false);
+        if(user.getRoles().isEmpty()){
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName("ROLE_USER"));
-        user.setRoles(roles);
-        userRepository.save(user);
+        user.setRoles(roles); }
+
+        userRepository.save(user);}
 
     }
 
@@ -44,17 +54,12 @@ public class UserService {
     public void update(User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
-            userRepository.updateUser(
-                    user.getEmail(),
-                    user.getRoles(),
-                    user.getPassword(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getDonations(),
-                    user.isEnabled(),
-                    user.isTokenExpired(),
-                    user.getId());
-        } else userRepository.save(user);
+            if(!optionalUser.get().getPassword().equals(user.getPassword())){
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+                //if password changed encode new password, if password is the same , skip encoding
+            }
+            userRepository.save(user);
+        }
     }
     public void delete(Long id){
         userRepository.deleteById(id);
@@ -65,11 +70,27 @@ public class UserService {
             userRepository.disableUser(userId);
         }
     }
+    public List<User> readByRole(Role role){
+        return userRepository.findAllByRolesContains(role);
+    }
 
-    public void changeEnabled(Long id) {
+/*    public void changeEnabled(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             userRepository.enableUser(id);
         }
+    }*/
+
+    public String encodeUserPassword(String password) {
+        return passwordEncoder.encode(password);
     }
+    public User getCurrentUser() {
+        UserDetails current = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userRepository.findByEmail(current.getUsername()).isPresent()) {
+            return userRepository.findByEmail(current.getUsername()).get();
+        } else {
+            return null;
+        }
+    }
+
 }

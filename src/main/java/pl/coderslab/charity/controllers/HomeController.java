@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,25 +57,25 @@ public class HomeController {
         List<Donation> allDonations = donationRepository.findAll();
         Long numberOfBags = allDonations.stream().mapToLong(Donation::getQuantity).sum();
         model.addAttribute("bags", numberOfBags);
-        return "landingPage";
+        return "landing-page";
 
     }
     @GetMapping("/register")
     public String registerGoToForm(Model model){
         model.addAttribute("user" , new User());
-        return "registrationForm";
+        return "form-registration";
     }
     @PostMapping("/register")
     public String registerUser(@ModelAttribute  @Valid User user, BindingResult result){
-        if(result.hasErrors() ){
-            return "registrationForm";
-        } else {
+        if(userService.emailExist(user.getEmail())){result.addError(new ObjectError("email", "username exist")); }
+        if(result.hasErrors() ){ return "form-registration"; } //lepiej by było sprawdzanie maila zrobić przy validacji czy jest unikalny
+
             user.setEnabled(true);
             user.setTokenExpired(false);
             userService.create(user);
             return "redirect:";
         }
-    }
+
     @RequestMapping("/logged")
     public String loggedInChooseDirection(){
             Set<Role> roles = getCurrentUser().getRoles();

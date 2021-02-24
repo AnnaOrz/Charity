@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -98,6 +99,6 @@
 <%@ include file="footer.jsp" %>
 
 
-<script src="<c:url value="resources/js/app.js"/>"></script>
+<script src="<c:url value="resources/js/app.js"/>" type="text/javascript"></script>
 </body>
 </html>

@@ -8,10 +8,13 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <%--<link rel="stylesheet" href="<c:url value="resources/css/style.css"/>" type="text/css">--%>
+
 </head>
 <body>
 <a href='<c:url value="/admin/users" />'>Użytkownicy</a>
+<a href='<c:url value="/admin/admins" />'>Admini</a>
+<a href='<c:url value="/admin/institutions" />'>Fundacje</a>
+<a href='<c:url value="/admin/donations" />'>Dary</a>
 </body>
 </html>
 

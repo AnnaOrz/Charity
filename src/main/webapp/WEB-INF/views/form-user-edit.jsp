@@ -8,44 +8,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>" type="text/css">
+    <title>Edycja użytkownika</title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>" type="text/css">
 </head>
 <body>
-<%@ include file="header.jsp" %>
-
 <section class="login-page">
-    <h2>Załóż konto</h2>
+    <h2>Edycja użytkownika</h2>
 <form:form method="post" modelAttribute="user">
         <div class="form-group">
             <form:input path="email" value="${user.email}"  name="email" placeholder="Email" />
             <form:errors path="email"/>
     </div>
         <div class="form-group">
-            <form:input path="password" type="password" name="password" placeholder="Hasło" />
+            <form:input path="password" type="password" value="${user.password}" name="password" placeholder="Hasło" />
             <form:errors path="password"/>
         </div>
         <div class="form-group">
-            <form:input path="passwordConfirm" type="password" name="password2" placeholder="Powtórz hasło" />
+            <form:input path="passwordConfirm" type="password" value="${user.password}" name="password2" placeholder="Powtórz hasło" />
         </div>
     <div class="form-group">
-        <form:input path="firstName"  name="firstName" placeholder="Imię" />
+        <form:input path="firstName"  name="firstName" value="${user.firstName}" placeholder="Imię" />
     </div>
     <div class="form-group">
-        <form:input path="lastName" name="lastName" placeholder="Nazwisko" />
+        <form:input path="lastName" name="lastName" value="${user.lastName}"  placeholder="Nazwisko" />
     </div>
+    <form:input path="id" value="${user.id}" type="hidden" />
+    <form:input path="enabled" value="${user.enabled}"  type="hidden"  />
+    <form:input path="tokenExpired" value="${user.tokenExpired}" type="hidden"/>
 
         <div class="form-group form-group--buttons">
-            <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
-            <button class="btn" type="submit">Załóż konto</button>
+            <button class="btn" type="submit">Potwierdź edycję</button>
         </div>
-
-</form:form>>
+</form:form>
 </section>
-
-<%@ include file="footer.jsp" %>
-
-
-<script src="<c:url value="resources/js/app.js"/>"></script>
 </body>
 </html>

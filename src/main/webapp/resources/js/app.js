@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
+        if (slide.dataset.step === this.currentStep) {
           slide.classList.add("active");
         }
       });
@@ -164,6 +164,18 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
       // TODO: get data from inputs and show them in summary
+      const forms = document.querySelectorAll("form")
+      const summary = document.querySelector(".summary")
+      const step1 = document.querySelector("div[data-step='1']")
+      const step2 = document.querySelector("div[data-step='2']")
+      const categories = step1.querySelector(".description")
+      const bags = step2.querySelector("label")
+      const step3= document.querySelector("div[data-step='3']")
+      const institution = step3.querySelector(".title")
+      const step4 = document.querySelector("div[data-step='4']")
+      const adresAndDate = step4.querySelectorAll("label")
+
+
     }
 
   }

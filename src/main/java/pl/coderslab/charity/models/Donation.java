@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class Donation {
 
     private LocalTime pickUpTime;
     private String pickUpComment;
+
+    private boolean collected;
+    private LocalDateTime collectionSubmitted;
 
 
     public Long getId() {
@@ -112,5 +116,21 @@ public class Donation {
 
     public void setPickUpComment(String pickUpComment) {
         this.pickUpComment = pickUpComment;
+    }
+
+    public boolean isCollected() {
+        return collected;
+    }
+
+    public void setCollected(boolean collected) {
+        this.collected = collected;
+    }
+
+    public LocalDateTime getCollectionSubmitted() {
+        return collectionSubmitted;
+    }
+
+    public void setCollectionSubmitted(LocalDateTime collectionSubmitted) {
+        this.collectionSubmitted = collectionSubmitted;
     }
 }
