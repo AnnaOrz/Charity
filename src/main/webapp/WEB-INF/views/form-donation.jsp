@@ -49,7 +49,7 @@
                 <div class="form-group form-group--checkbox">
                     <label>
                         <form:checkbox path="categories"
-                                       name="${category.name}"
+                                       name="categories"
                                        value="${category.id}"
                         />
                         <span class="checkbox"></span>
@@ -84,38 +84,18 @@
         <!-- STEP 3-->
         <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
             <div class="form-group form-group--checkbox">
+                <c:forEach items="${institutions}" var="institution">
                 <label>
-
-                    <c:forEach items="${institutions}" var="institution" >
-                    <span class="checkbox radio" >
+                    <form:radiobutton path="institution" name="organization" id="organization" value="${institution.id}"/>
+                    <span class="checkbox radio"> </span>
+                        <div class="title"> Fundacja : ${institution.name} </div>
                     <span class="description">
-                  <div class="title">Fundacja : ${institution.name}</div>
-                  <div class="subtitle">
-                    Cel i misja: ${institution.description}
-                      <form:radiobutton path="institution" value="${institution.id}" name="institution"/>
-                  </div>
-
+                          <div class="subtitle"> Cel i misja: ${institution.description}</div>
                 </span>
-                    </c:forEach>
                 </label>
+                </c:forEach>
             </div>
-
-                <%-- <div class="form-group form-group--checkbox">
-                     <label>
-                         <input type="radio" name="organization" value="old" />
-                         <span class="checkbox radio"></span>
-                         <span class="description">
-                   <div class="title">Fundacja “Dla dzieci"</div>
-                   <div class="subtitle">
-                     Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                     życiowej.
-                   </div>
-                 </span>
-                     </label>
-                 </div>--%>
-
             <div class="form-group form-group--buttons">
                 <button type="button" class="btn prev-step">Wstecz</button>
                 <button type="button" class="btn next-step">Dalej</button>
@@ -228,6 +208,6 @@
     </form:form>
 </section>
 <%@ include file="footer.jsp" %>
-<script src="<c:url value="/resources/js/app.js" />" type="text/javascript" ></script>
+<script src="<c:url value="/resources/js/app.js" />" type="text/javascript"></script>
 </body>
 </html>
