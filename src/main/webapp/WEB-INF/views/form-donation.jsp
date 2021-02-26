@@ -44,19 +44,16 @@
         <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
 
-            <c:forEach items="${categories}" var="category">
-
                 <div class="form-group form-group--checkbox">
-                    <label>
-                        <form:checkbox path="categories"
-                                       name="categories"
-                                       value="${category.id}"
-                        />
-                        <span class="checkbox"></span>
+                    <c:forEach items="${categories}" var="category">
+                        <label>
+                           <input type="checkbox" name="categories" value="${category.id}" data-desc="${category.name}"/>
+                            <span class="checkbox"></span>
                         <span class="description"> ${category.name}</span>
                     </label>
+                    </c:forEach>
                 </div>
-            </c:forEach>
+
 
             <div class="form-group form-group--buttons">
                 <button type="button" class="btn next-step">Dalej</button>
@@ -69,8 +66,7 @@
 
             <div class="form-group form-group--inline">
                 <label>
-                    Liczba 60l worków:
-                    <form:input path="quantity" type="number" step="1" min="1" name="quantity"/>
+                    <form:input path="quantity" type="number" step="1" min="1" name="quantity" required="true"  />
                 </label>
             </div>
 
@@ -86,14 +82,14 @@
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
             <div class="form-group form-group--checkbox">
                 <c:forEach items="${institutions}" var="institution">
-                <label>
-                    <form:radiobutton path="institution" name="organization" id="organization" value="${institution.id}"/>
-                    <span class="checkbox radio"> </span>
+                    <label>
+                        <input type="radio" value="${institution.id}" data-desc="${institution.name}" name="institution" />
+                        <span class="checkbox radio"> </span>
                         <div class="title"> Fundacja : ${institution.name} </div>
-                    <span class="description">
+                        <span class="description">
                           <div class="subtitle"> Cel i misja: ${institution.description}</div>
                 </span>
-                </label>
+                    </label>
                 </c:forEach>
             </div>
             <div class="form-group form-group--buttons">
@@ -109,22 +105,20 @@
                 <div class="form-section--column">
                     <h4>Adres odbioru</h4>
                     <div class="form-group form-group--inline">
-                        <label> Ulica <form:input path="street" name="street"/> </label>
+                        <label> Ulica <form:input path="street" name="street" id="street" required="true" /> </label>
                     </div>
 
                     <div class="form-group form-group--inline">
-                        <label> Miasto <form:input path="city" name="city"/> </label>
+                        <label> Miasto <form:input path="city" name="city" id="city" required="true" /> </label>
+                    </div>
+
+                    <div class="form-group form-group--inline">
+                        <label> Kod pocztowy <form:input path="zipCode" name="zipCode" id="zipCode" pattern="[0-9]{2}-[0-9]{3}" required="true" /> </label>
                     </div>
 
                     <div class="form-group form-group--inline">
                         <label>
-                            Kod pocztowy <form:input path="zipCode" name="zipCode"/>
-                        </label>
-                    </div>
-
-                    <div class="form-group form-group--inline">
-                        <label>
-                            Numer telefonu <input type="phone" name="phone"/>
+                            Numer telefonu w formacie 666-777-888 <input type="tel" pattern="[0-9]{3}-[0-9]{2,3}-[0-9]{2,4}" name="phone" id="phone"/>
                         </label>
                     </div>
                 </div>
@@ -133,17 +127,17 @@
                 <div class="form-section--column">
                     <h4>Termin odbioru</h4>
                     <div class="form-group form-group--inline">
-                        <label> Data <form:input type="date" path="pickUpDate" name="date"/> </label>
+                        <label> Data <form:input type="date" path="pickUpDate" name="date" id="date"/> </label>
                     </div>
 
                     <div class="form-group form-group--inline">
-                        <label> Godzina <form:input type="time" path="pickUpTime" name="time"/> </label>
+                        <label> Godzina <form:input type="time" path="pickUpTime" name="time" id="time" /> </label>
                     </div>
 
                     <div class="form-group form-group--inline">
                         <label>
                             Uwagi dla kuriera
-                            <form:textarea path="pickUpComment" name="pickUpComment"/>
+                            <form:textarea path="pickUpComment" name="pickUpComment" id="pickUpComment" />
                         </label>
                     </div>
                 </div>
@@ -164,15 +158,13 @@
                     <ul>
                         <li>
                             <span class="icon icon-bag"></span>
-                            <span class="summary--text"
+                            <span class="summary--text" id="bags"
                             >Ilość worków + kategoria darowizny</span>
                         </li>
 
                         <li>
                             <span class="icon icon-hand"></span>
-                            <span class="summary--text"
-                            >Dla której fundacji</span
-                            >
+                            <span class="summary--text" id="institutionSum">Dla której fundacji</span>
                         </li>
                     </ul>
                 </div>
@@ -181,19 +173,19 @@
                     <div class="form-section--column">
                         <h4>Adres odbioru:</h4>
                         <ul>
-                            <li>ulica</li>
-                            <li>miasto</li>
-                            <li>zip code</li>
-                            <li>nr tel</li>
+                            <li id="streetSum">ulica</li>
+                            <li id="citySum">miasto</li>
+                            <li id="zipSum"> zip code</li>
+                            <li id="phoneSum">nr tel</li>
                         </ul>
                     </div>
 
                     <div class="form-section--column">
                         <h4>Termin odbioru:</h4>
                         <ul>
-                            <li>data odbioru</li>
-                            <li>godzina odbioru</li>
-                            <li>uwagi dla kuriera</li>
+                            <li id="dateSum">data odbioru</li>
+                            <li id="timeSum">godzina odbioru</li>
+                            <li id="commentSum">uwagi dla kuriera</li>
                         </ul>
                     </div>
                 </div>

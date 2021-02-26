@@ -11,7 +11,7 @@
 </head>
 <body>
 
-
+<%@ include file="admin-header.jsp" %>
 <div> ${info}</div>
 <div> <a href='<c:url value="/admin/addInstitution"/>'>Dodaj nową instytucję</a> </div>
 <table class="table table-light table-striped">

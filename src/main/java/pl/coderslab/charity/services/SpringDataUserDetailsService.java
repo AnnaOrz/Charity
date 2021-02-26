@@ -27,8 +27,7 @@ public class SpringDataUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails
-    loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) {
         Optional<User> optionalUser = userRepository.findByEmail(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

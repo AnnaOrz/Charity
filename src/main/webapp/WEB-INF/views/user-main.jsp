@@ -34,8 +34,7 @@
         <td>${donation.pickUpDate} o ${donation.pickUpTime}</td>
         <td>${donation.street}, ${donation.city} , ${donation.zipCode}</td>
         <td>${donation.collected}</td>
-        <%--czy dawać kategorie??--%>
-
+        <td> <c:forEach items="${donation.categories}" var="category"> ${category.name}, </c:forEach></td>
     </tr>
     </c:forEach>
 

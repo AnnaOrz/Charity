@@ -37,9 +37,10 @@ import javax.validation.Valid;
         return "form-donation";
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public String addDonation(@ModelAttribute @Valid Donation donation, BindingResult result){
+            if(result.hasErrors()){ return "form-dontation"; }
         donationRepository.save(donation);
-            return "landing-page";
+            return "form-confirmation";
     }
 }

@@ -11,10 +11,7 @@
 
 </head>
 <body>
-<a href='<c:url value="/admin/users" />'>Użytkownicy</a>
-<a href='<c:url value="/admin/admins" />'>Admini</a>
-<a href='<c:url value="/admin/institutions" />'>Fundacje</a>
-<a href='<c:url value="/admin/donations" />'>Dary</a>
+<%@ include file="admin-header.jsp" %>
 </body>
 </html>
 

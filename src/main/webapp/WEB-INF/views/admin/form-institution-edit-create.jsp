@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>" type="text/css">
 </head>
 <body>
-
+<%@ include file="admin-header.jsp" %>
 <section class="login-page">
     <h2>Dane instytucji</h2>
     <form:form method="post" modelAttribute="institution">

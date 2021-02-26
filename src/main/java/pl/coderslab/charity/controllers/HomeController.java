@@ -3,14 +3,15 @@ package pl.coderslab.charity.controllers;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.models.Donation;
 import pl.coderslab.charity.models.Institution;
 import pl.coderslab.charity.models.Role;
@@ -20,6 +21,9 @@ import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 import pl.coderslab.charity.services.UserService;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
@@ -31,12 +35,14 @@ public class HomeController {
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final RequestCache requestCache = new HttpSessionRequestCache();
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, UserService userService) {
+    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, UserService userService) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+
     }
     public User getCurrentUser() {
         UserDetails current = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -68,8 +74,7 @@ public class HomeController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute  @Valid User user, BindingResult result){
         if(userService.emailExist(user.getEmail())){result.addError(new ObjectError("email", "username exist")); }
-        if(result.hasErrors() ){ return "form-registration"; } //lepiej by było sprawdzanie maila zrobić przy validacji czy jest unikalny
-
+        if(result.hasErrors() ){ return "form-registration"; }
             user.setEnabled(true);
             user.setTokenExpired(false);
             userService.create(user);
@@ -85,6 +90,9 @@ public class HomeController {
                 return "redirect:/admin";
             }
     }
-
-
+    @GetMapping("/login")
+    public String goToLogForm(Model model){
+        model.addAttribute("user", new User());
+        return "form-login";
+    }
 }

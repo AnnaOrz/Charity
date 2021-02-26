@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<%@ include file="admin-header.jsp" %>
 </body>
 </html>

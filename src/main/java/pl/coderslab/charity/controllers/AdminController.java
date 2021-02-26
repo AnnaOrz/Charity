@@ -143,7 +143,7 @@ public class AdminController {
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName("ROLE_ADMIN"));
         admin.setRoles(roles);
-        userService.create(admin);
+        userService.createAdmin(admin);
         return "redirect:admin/admins";
     }
     @RequestMapping("/deleteAdmin/{id:[0-9]+}")

@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
+          this.updateSubmission();
         });
       });
 
@@ -136,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep--;
           this.updateForm();
+          this.updateSubmission();
         });
       });
 
@@ -164,6 +166,39 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
       // TODO: get data from inputs and show them in summary
+
+    }
+    updateSubmission(){
+      const categories = document.querySelectorAll('input[type="checkbox"]:checked');
+      const categoriesNames = this.getDataDescText(categories);
+      const numberOfBagsText = document.getElementById("quantity").value;
+      const numberOfBags = document.getElementById("bags");
+      numberOfBags.innerText = numberOfBagsText.concat(" ",categoriesNames);
+      const institutionSum = document.getElementById("institutionSum");
+      const institution = document.querySelector('input[type="radio"]:checked');
+      institutionSum.innerText = institution.dataset["desc"];
+      const StreetSum = document.getElementById("streetSum");
+      StreetSum.innerText = document.getElementById("street").value;
+      const CitySum = document.getElementById("citySum");
+      CitySum.innerText = document.getElementById("city").value;
+      const ZipSum = document.getElementById("zipSum");
+      ZipSum.innerText = document.getElementById("zipCode").value;
+      const DateSum = document.getElementById("dateSum");
+      DateSum.innerText = document.getElementById("date").value;
+      const TimeSum = document.getElementById("timeSum");
+      TimeSum.innerText = document.getElementById("time").value;
+      const CommentSum = document.getElementById("commentSum");
+      CommentSum.innerText = document.getElementById("pickUpComment").value;
+      const PhoneSum = document.getElementById("phoneSum");
+      PhoneSum.innerText = document.getElementById("phone").value;
+
+    }
+    getDataDescText(elements){
+      let text = "";
+      for(let i =0; i < elements.length; i++){
+        text = text.concat(elements[i].dataset["desc"], ", ");
+      }
+      return text;
     }
 
   }

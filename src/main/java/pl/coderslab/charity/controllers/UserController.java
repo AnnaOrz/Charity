@@ -26,6 +26,7 @@ public class UserController {
 
     @RequestMapping("")
     public String goToUserPagePage(Model model) {
+        model.addAttribute("donations", userService.getCurrentUser().getDonations());
         return "user-main";
     }
     @GetMapping("/edit")

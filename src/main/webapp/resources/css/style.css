@@ -895,7 +895,7 @@ header .slogan--item {
 @media (min-width: 990px) and (max-width: 1230px) {
   /* line 29, scss/modules/_header.scss */
   header .slogan--item {
-    width: 75%;
+    : 75%;
   }
 }
 

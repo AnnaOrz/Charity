@@ -28,22 +28,30 @@ public class UserService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     public boolean emailExist(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
     public void create(User user) {
-        if(!emailExist(user.getEmail())){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        user.setTokenExpired(false);
-        if(user.getRoles().isEmpty()){
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByName("ROLE_USER"));
-        user.setRoles(roles); }
+        if (!emailExist(user.getEmail())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setEnabled(true);
+            user.setTokenExpired(false);
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleRepository.findByName("ROLE_USER"));
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
 
-        userRepository.save(user);}
+    }
 
+    public void createAdmin(User user) {
+        create(user);
+        Set<Role> roles = user.getRoles();
+        roles.add(roleRepository.findByName("ROLE_ADMIN"));
+        user.setRoles(roles);
+        userRepository.save(user);
     }
 
     public User read(Long id) {
@@ -54,23 +62,26 @@ public class UserService {
     public void update(User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
-            if(!optionalUser.get().getPassword().equals(user.getPassword())){
+            if (!optionalUser.get().getPassword().equals(user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 //if password changed encode new password, if password is the same , skip encoding
             }
             userRepository.save(user);
         }
     }
-    public void delete(Long id){
+
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
     public void disable(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             userRepository.disableUser(userId);
         }
     }
-    public List<User> readByRole(Role role){
+
+    public List<User> readByRole(Role role) {
         return userRepository.findAllByRolesContains(role);
     }
 
@@ -84,6 +95,7 @@ public class UserService {
     public String encodeUserPassword(String password) {
         return passwordEncoder.encode(password);
     }
+
     public User getCurrentUser() {
         UserDetails current = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (userRepository.findByEmail(current.getUsername()).isPresent()) {

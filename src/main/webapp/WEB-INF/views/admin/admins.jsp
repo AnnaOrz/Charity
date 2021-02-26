@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 </head>
 <body>
-
+<%@ include file="admin-header.jsp" %>
 <div> <a href='<c:url value="/admin/createAdmin"/>'>Dodaj nowego admina</a> </div>
 <div> ${info}</div>
 <table class="table table-light table-striped">

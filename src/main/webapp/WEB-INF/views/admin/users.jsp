@@ -12,7 +12,7 @@
 </head>
 <body>
 
-
+<%@ include file="admin-header.jsp" %>
 <div> ${info}</div>
 <table class="table table-light table-striped">
     <thead>
