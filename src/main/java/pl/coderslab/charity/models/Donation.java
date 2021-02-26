@@ -33,6 +33,7 @@ public class Donation {
 
     private LocalTime pickUpTime;
     private String pickUpComment;
+    private String phone;
 
     private boolean collected;
     private LocalDateTime collectionSubmitted;
@@ -132,5 +133,13 @@ public class Donation {
 
     public void setCollectionSubmitted(LocalDateTime collectionSubmitted) {
         this.collectionSubmitted = collectionSubmitted;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

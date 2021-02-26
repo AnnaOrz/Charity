@@ -118,7 +118,7 @@
 
                     <div class="form-group form-group--inline">
                         <label>
-                            Numer telefonu w formacie 666-777-888 <input type="tel" pattern="[0-9]{3}-[0-9]{2,3}-[0-9]{2,4}" name="phone" id="phone"/>
+                            Numer telefonu w formacie 666-777-888 <form:input path="phone" type="tel" pattern="[0-9]{3}-[0-9]{2,3}-[0-9]{2,4}" name="phone" id="phone"/>
                         </label>
                     </div>
                 </div>
