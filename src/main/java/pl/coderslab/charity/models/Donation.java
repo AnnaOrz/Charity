@@ -23,21 +23,17 @@ public class Donation {
     private Institution institution;
 
     private String street;
-
     private String city;
-
     private String zipCode;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate pickUpDate;
-
-    private LocalTime pickUpTime;
     private String pickUpComment;
     private String phone;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate pickUpDate;
+    private LocalTime pickUpTime;
+
     private boolean collected;
     private LocalDateTime collectionSubmitted;
-
 
     public Long getId() {
         return id;

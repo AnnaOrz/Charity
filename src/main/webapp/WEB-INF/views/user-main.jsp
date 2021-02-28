@@ -21,9 +21,12 @@
     <tr>
         <th scope="col">Instytucja </th>
         <th scope="col">Ilość worków </th>
+        <th scope="col"> Kategorie </th>
         <th scope="col">Data i czas odbioru</th>
         <th scope="col">Adres odbioru </th>
         <th scope="col"> Odebrane </th>
+        <th scope="col"> </th>
+
 
     </tr>
     </thead>
@@ -31,10 +34,12 @@
     <c:forEach items="${donations}" var="donation">
     <tr>
         <th scope="row">${donation.institution.name}</th>
+        <td> ${donation.quantity}</td>
+        <td> <c:forEach items="${donation.categories}" var="category"> ${category.name}, </c:forEach></td>
         <td>${donation.pickUpDate} o ${donation.pickUpTime}</td>
         <td>${donation.street}, ${donation.city} , ${donation.zipCode}</td>
         <td>${donation.collected}</td>
-        <td> <c:forEach items="${donation.categories}" var="category"> ${category.name}, </c:forEach></td>
+
     </tr>
     </c:forEach>
 

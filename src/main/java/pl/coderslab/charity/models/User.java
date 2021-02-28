@@ -17,7 +17,6 @@ public class User {
     private Long id;
 
     @Email
-
     @Column(unique = true, name = "username")
     @NotBlank(message = "pole nie może być puste")
     private String email;

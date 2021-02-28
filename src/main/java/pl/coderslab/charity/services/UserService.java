@@ -1,20 +1,20 @@
 package pl.coderslab.charity.services;
 
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.coderslab.charity.models.Donation;
 import pl.coderslab.charity.models.Role;
 import pl.coderslab.charity.models.User;
 import pl.coderslab.charity.repositories.RoleRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -104,5 +104,17 @@ public class UserService {
             return null;
         }
     }
+    public List<Donation> getUserDonationsSorted(User user) {
+        List<Donation> donations = user.getDonations();
+        donations = donations.stream()
+                .sorted(Comparator.comparing(Donation::getPickUpDate).reversed().thenComparing(Donation::isCollected).reversed())
+                /*.sorted((d1, d2) -> Boolean.compare(d2.isCollected(), d1.isCollected()))*/
+                .collect(Collectors.toList());
+        return donations;
+    }
+    public List<User> getAllUsersSortedByLastName(){
+        return userRepository.findAll(Sort.by("lastName"));
+    }
+
 
 }

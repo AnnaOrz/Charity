@@ -21,13 +21,11 @@ import java.util.Set;
 @Controller
 @RequestMapping(path = "/admin")
 public class AdminController {
-    private final UserRepository userRepository;
     private final UserService userService;
     private final InstitutionService institutionService;
     private final RoleRepository roleRepository;
 
-    public AdminController(UserRepository userRepository, UserService userService, InstitutionService institutionService, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
+    public AdminController(UserService userService, InstitutionService institutionService, RoleRepository roleRepository) {
         this.userService = userService;
         this.institutionService = institutionService;
         this.roleRepository = roleRepository;
@@ -40,8 +38,7 @@ public class AdminController {
 
     @RequestMapping("/users")
     public String showUsers(Model model) {
-        List<User> userList = userRepository.findAll(Sort.by("lastName"));
-        model.addAttribute("users", userList);
+        model.addAttribute("users", userService.getAllUsersSortedByLastName());
         return "/admin/users";
     }
 

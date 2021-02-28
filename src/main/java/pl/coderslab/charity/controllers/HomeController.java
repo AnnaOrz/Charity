@@ -1,29 +1,18 @@
 package pl.coderslab.charity.controllers;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.models.Donation;
-import pl.coderslab.charity.models.Institution;
 import pl.coderslab.charity.models.Role;
 import pl.coderslab.charity.models.User;
-import pl.coderslab.charity.repositories.DonationRepository;
-import pl.coderslab.charity.repositories.InstitutionRepository;
-import pl.coderslab.charity.repositories.UserRepository;
+import pl.coderslab.charity.services.DonationService;
+import pl.coderslab.charity.services.InstitutionService;
 import pl.coderslab.charity.services.UserService;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
@@ -31,36 +20,22 @@ import java.util.Set;
 
 @Controller
 public class HomeController {
-    private final InstitutionRepository institutionRepository;
-    private final DonationRepository donationRepository;
-    private final UserRepository userRepository;
+    private  final InstitutionService institutionService;
     private final UserService userService;
-    private final RequestCache requestCache = new HttpSessionRequestCache();
+    private final DonationService donationService;
 
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, UserService userService) {
-        this.institutionRepository = institutionRepository;
-        this.donationRepository = donationRepository;
-        this.userRepository = userRepository;
+    public HomeController(InstitutionService institutionService, UserService userService, DonationService donationService) {
+        this.institutionService = institutionService;
         this.userService = userService;
-
-    }
-    public User getCurrentUser() {
-        UserDetails current = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userRepository.findByEmail(current.getUsername()).isPresent()) {
-            return userRepository.findByEmail(current.getUsername()).get();
-        } else {
-            return null;
-        }
+        this.donationService = donationService;
     }
 
 
     @RequestMapping("")
     public String homeAction(Model model){
-        List<Institution> institutions = institutionRepository.findAll();
-        model.addAttribute("institutions", institutions);
-        model.addAttribute("donations", donationRepository.countAllDonations());
-
-        List<Donation> allDonations = donationRepository.findAll();
+        model.addAttribute("institutions", institutionService.readAll().size());
+        model.addAttribute("donations", donationService.readAll().size());
+        List<Donation> allDonations = donationService.readAll();
         Long numberOfBags = allDonations.stream().mapToLong(Donation::getQuantity).sum();
         model.addAttribute("bags", numberOfBags);
         return "landing-page";
@@ -83,7 +58,7 @@ public class HomeController {
 
     @RequestMapping("/logged")
     public String loggedInChooseDirection(){
-            Set<Role> roles = getCurrentUser().getRoles();
+            Set<Role> roles = userService.getCurrentUser().getRoles();
             if (roles.stream().noneMatch(r -> r.getName().equals("ROLE_ADMIN"))) {
                 return "redirect:/user";
             } else {
