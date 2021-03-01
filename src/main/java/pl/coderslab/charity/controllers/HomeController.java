@@ -33,7 +33,7 @@ public class HomeController {
 
     @RequestMapping("")
     public String homeAction(Model model){
-        model.addAttribute("institutions", institutionService.readAll().size());
+        model.addAttribute("institutions", institutionService.readAll());
         model.addAttribute("donations", donationService.readAll().size());
         List<Donation> allDonations = donationService.readAll();
         Long numberOfBags = allDonations.stream().mapToLong(Donation::getQuantity).sum();

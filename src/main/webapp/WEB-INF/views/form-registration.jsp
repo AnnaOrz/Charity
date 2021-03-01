@@ -22,11 +22,11 @@
             <form:errors path="email"/>
     </div>
         <div class="form-group">
-            <form:input path="password" type="password" name="password" placeholder="Hasło" />
+            <form:input path="password" type="password" name="password" placeholder="Hasło" minlength="8"/>
             <form:errors path="password"/>
         </div>
         <div class="form-group">
-            <form:input path="passwordConfirm" type="password" name="password2" placeholder="Powtórz hasło" />
+            <form:input path="passwordConfirm" type="password" name="password2" placeholder="Powtórz hasło" minlength="8"/>
         </div>
     <div class="form-group">
         <form:input path="firstName"  name="firstName" placeholder="Imię" />
@@ -36,7 +36,7 @@
     </div>
 
         <div class="form-group form-group--buttons">
-            <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+            <a href="<c:url value="/login"/>" class="btn btn--without-border">Zaloguj się</a>
             <button class="btn" type="submit">Załóż konto</button>
         </div>
 

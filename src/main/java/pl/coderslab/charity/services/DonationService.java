@@ -6,7 +6,9 @@ import pl.coderslab.charity.models.Donation;
 import pl.coderslab.charity.models.Institution;
 import pl.coderslab.charity.repositories.DonationRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,4 +48,15 @@ public class DonationService {
         }
     }
 
+    public void confirmCollection(Long id) {
+        if(donationRepository.findById(id).isPresent()){
+            Donation donation = donationRepository.getOne(id);
+            if(!donation.isCollected()) {
+                donation.setCollected(true);
+                donation.setCollectionSubmitted(LocalDateTime.now());
+                update(donation);
+            }
+        }
+
+    }
 }

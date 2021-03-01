@@ -10,7 +10,7 @@
     <title>Dane admina</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>" type="text/css">
 </head>
-<body>
+<body class="admin">
 <%@ include file="admin-header.jsp" %>
 <section class="login-page">
     <h2>Dane admina</h2>

@@ -89,7 +89,6 @@
                     <div class="title"> Fundacja "${institution.name}"</div>
                     <div class="subtitle">Cel i misja: ${institution.description}</div>
                 </div>
-
             </li>
             </c:forEach>
         </ul>

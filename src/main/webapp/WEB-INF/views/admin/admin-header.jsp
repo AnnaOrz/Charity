@@ -8,12 +8,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>" type="text/css">
 
 <body>
-<a href='<c:url value="/" />'>Powrót do strony głównej</a>
-<a href='<c:url value="/admin/users" />'>Użytkownicy</a>
-<a href='<c:url value="/admin/admins" />'>Admini</a>
-<a href='<c:url value="/admin/institutions" />'>Fundacje</a>
-<a href='<c:url value="/admin/donations" />'>Dary</a>
+<ul class="nav--bar">
+    <li><a href='<c:url value="/" />'>Powrót do strony głównej</a></li>
+    <li><a href='<c:url value="/admin/users" />'>Użytkownicy</a></li>
+    <li><a href='<c:url value="/admin/admins" />'>Admini</a></li>
+    <li><a href='<c:url value="/admin/institutions" />'>Fundacje</a></li>
+    <li><a href='<c:url value="/admin/donations" />'>Dary</a></li>
+</ul>
 </body>
 </html>

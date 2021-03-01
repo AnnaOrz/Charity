@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +35,7 @@ public class User {
 
 
     @NotBlank(message = "pole nie może być puste")
+    @Size(min=8)
     private String password;
 
     @Transient

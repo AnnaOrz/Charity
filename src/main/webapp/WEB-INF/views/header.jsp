@@ -8,7 +8,9 @@
     <nav class="container container--70">
         <ul class="nav--actions">
             <sec:authorize access="isAuthenticated()">
-                <li> ${principal.username}</li>
+                <li>
+                    <a href="<c:url value="/logged"/>">${principal.username} Moje konto</a>
+                </li>
             </sec:authorize>
 
             <li><a href="<c:url value="/login"/>" class="btn btn--small btn--without-border">Zaloguj</a></li>
@@ -16,7 +18,7 @@
         </ul>
 
         <ul>
-            <li><a href="#" class="btn btn--without-border active">Start</a></li>
+            <li><a href="<c:url value="/"/>" class="btn btn--without-border active">Start</a></li>
             <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="#" class="btn btn--without-border">O nas</a></li>
             <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
