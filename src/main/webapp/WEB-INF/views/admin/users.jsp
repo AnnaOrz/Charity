@@ -10,15 +10,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>" type="text/css">
 </head>
-<body class="admin">
+<body>
 
 <%@ include file="admin-header.jsp" %>
 <div> ${info}</div>
-<table class="table table-light table-striped">
+<table>
     <thead>
     <tr>
         <th scope="col">Edycja użytkownika</th>
-
         <th scope="col"> Usuń</th>
         <th scope="col">Id w bazie</th>
         <th scope="col">Email</th>

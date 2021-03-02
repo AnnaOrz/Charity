@@ -33,8 +33,6 @@
         <form:input path="lastName" name="lastName" value="${user.lastName}"  placeholder="Nazwisko" />
     </div>
     <form:input path="id" value="${user.id}" type="hidden" />
-    <form:input path="enabled" value="${user.enabled}"  type="hidden"  />
-    <form:input path="tokenExpired" value="${user.tokenExpired}" type="hidden"/>
 
         <div class="form-group form-group--buttons">
             <button class="btn" type="submit">Potwierdź edycję</button>

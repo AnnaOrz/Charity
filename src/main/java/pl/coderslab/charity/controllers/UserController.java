@@ -41,6 +41,11 @@ public class UserController {
         if (result.hasErrors()) {
             return "form-user-edit";
         }
+        User oldUser = userService.read(user.getId());
+        user.setDonations(oldUser.getDonations());
+        user.setRoles(oldUser.getRoles());
+        user.setTokenExpired(oldUser.isTokenExpired());
+        user.setEnabled(oldUser.isEnabled());
         userService.update(user);
         return "redirect:/user";
     }

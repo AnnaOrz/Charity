@@ -33,9 +33,7 @@ public class User {
     @UniqueElements
     private Set<Role> roles;
 
-
-    @NotBlank(message = "pole nie może być puste")
-    @Size(min=8)
+    @Size(min=8 , message="minimalna długość hasła to 8")
     private String password;
 
     @Transient

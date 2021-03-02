@@ -72,16 +72,18 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "admin/form-user-edit";
         }
-        User userToUpdate = userService.read(id);
-        if (userToUpdate == null) {
+        User oldUser = userService.read(user.getId());
+        if (oldUser == null) {
             model.addAttribute("message", "nie znaleziono takiego użytkowika");
             return "admin/form-user-edit";
         }
-        if (user.getPassword().equals(userToUpdate.getPassword())) {
+        user.setDonations(oldUser.getDonations());
+        user.setRoles(oldUser.getRoles());
+        user.setTokenExpired(oldUser.isTokenExpired());
+        user.setEnabled(oldUser.isEnabled());
+        if (user.getPassword().equals(oldUser.getPassword())) {
             user.setPassword(userService.encodeUserPassword(user.getPassword()));
         }
-        user.setDonations(userToUpdate.getDonations());
-        user.setRoles(userToUpdate.getRoles());
         userService.update(user);
         return "redirect:/admin/users";
     }
